@@ -30,6 +30,7 @@
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
                 android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
                 />
 
             <EditText
@@ -44,6 +45,7 @@
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
                 android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
                 />
 
             <EditText
@@ -58,6 +60,7 @@
                 android:drawableLeft="@drawable/baseline_password_24"
                 android:drawablePadding="8dp"
                 android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
                 />
 
             <Button

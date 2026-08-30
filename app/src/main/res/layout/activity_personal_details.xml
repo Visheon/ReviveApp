@@ -36,6 +36,7 @@
                     android:hint="Enter Name (cannot change this later)"
                     android:drawablePadding="8dp"
                     android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
                     />
 
                 <EditText
@@ -49,6 +50,7 @@
                     android:hint="Enter Age"
                     android:drawablePadding="8dp"
                     android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
                     />
 
                 <EditText
@@ -62,6 +64,7 @@
                     android:hint="Enter Weight (in kg)"
                     android:drawablePadding="8dp"
                     android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
                     />
 
                 <EditText
@@ -75,6 +78,7 @@
                     android:hint="Enter Height (in cm)"
                     android:drawablePadding="8dp"
                     android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
                     />
 
 
@@ -95,6 +99,7 @@
                     android:inputType="none"
                     android:drawablePadding="8dp"
                     android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -116,6 +121,7 @@
                         android:inputType="none"
                         android:drawablePadding="8dp"
                         android:textColor="@color/grey"
+                        android:textColorHint="@color/grey"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>

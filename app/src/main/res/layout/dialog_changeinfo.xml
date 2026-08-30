@@ -41,19 +41,20 @@
             tools:layout_editor_absoluteX="-8dp" />
 
         <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editBoxDetails"
+            android:layout_width="309dp"
+            android:layout_height="61dp"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/darkGreen"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
             android:textColor="@color/darkGreen"
             android:textSize="16sp"
-            android:layout_marginStart="20sp"
-            android:backgroundTint="@color/darkGreen"
-            android:layout_marginBottom="30dp"
-            android:maxLines="1"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ChangeTitle"
-            android:inputType="numberDecimal"/>
+            tools:ignore="SpeakableTextPresentCheck" />
         <Button
             android:layout_width="0dp"
             android:layout_height="50dp"

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/initialscreen"
+    tools:context=".LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="50dp"
+                android:padding="20dp">
+
+
+                <EditText
+                    android:inputType="text"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/name_input"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/green_border"
+                    android:padding="8dp"
+                    android:hint="Enter Name (cannot change this later)"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/grey"
+                    />
+
+                <EditText
+                    android:inputType="number"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/age_input"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/green_border"
+                    android:padding="8dp"
+                    android:hint="Enter Age"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/grey"
+                    />
+
+                <EditText
+                    android:inputType="number"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/weight_input"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/green_border"
+                    android:padding="8dp"
+                    android:hint="Enter Weight (in kg)"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/grey"
+                    />
+
+                <EditText
+                    android:inputType="number"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/height_input"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/green_border"
+                    android:padding="8dp"
+                    android:hint="Enter Height (in cm)"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/grey"
+                    />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="30dp"
+                android:padding="8dp"
+                android:background="@drawable/green_border"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="350dp"
+                android:layout_height="60dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/sex_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:hint="Sex"
+                    android:inputType="none"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/grey"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="30dp"
+                    android:padding="8dp"
+                    android:background="@drawable/green_border"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/fitness_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:hint="Activity Levels"
+                        android:inputType="none"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/grey"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:layout_width="350dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="30dp"
+                    android:text="SAVE DETAILS"
+                    android:id="@+id/personalinfo_save_button"
+                    android:textSize="18dp"
+                    android:backgroundTint="@color/darkGreen"
+                    android:textColor="@color/white"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

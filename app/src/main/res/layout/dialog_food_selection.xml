@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/green_border"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Food Item"
+        android:textSize="20sp"
+        android:textColor="@color/darkGreen"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/foodSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:iconifiedByDefault="false"
+        app:queryHint="Search foods..."
+        android:background="@drawable/green_border"
+        app:closeIcon="@drawable/baseline_clear_green"
+        app:searchIcon="@drawable/baseline_search_24"/>
+
+    <ListView
+        android:id="@+id/foodListView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="vertical"
+        android:overScrollMode="never"
+        android:fadeScrollbars="true"
+        android:clipToPadding="false"
+        android:divider="@color/white"
+        android:dividerHeight="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:backgroundTint="@color/darkGreen"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

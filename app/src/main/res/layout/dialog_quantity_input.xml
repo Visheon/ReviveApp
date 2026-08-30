@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:padding="20dp"
+            android:background="@drawable/green_border">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fooditemname"
+                android:text="Food Item"
+                android:textSize="30sp"
+                android:textAlignment="center"
+                android:textColor="@color/darkGreen"/>
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="20dp"
+                android:text="Enter the amount in the meal (grams)"
+                android:textColor="@color/darkGreen"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/quantityInput"
+                android:textColor="@color/darkGreen"
+                android:textSize="16sp"
+                android:layout_marginStart="10sp"
+                android:backgroundTint="@color/darkGreen"
+                android:layout_marginBottom="10dp"
+                android:maxLines="1"
+                android:inputType="numberDecimal"/>
+
+
+            <!-- Upload Fields -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="Close"
+                    android:id="@+id/MealCloseBtn"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/darkGreen"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/white"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="Save"
+                    android:id="@+id/MealSaveBtn"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/darkGreen"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</ScrollView>

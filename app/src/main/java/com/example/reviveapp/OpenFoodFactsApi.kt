@@ -38,7 +38,7 @@ class OpenFoodFactsApi {
         // descriptive User-Agent so they can contact you if your traffic
         // looks like abuse. Put a real contact here before you ship this
         // anywhere — "example.com" isn't a real point of contact.
-        private const val USER_AGENT = "ReviveApp/1.0 (youremail@example.com)"
+        private const val USER_AGENT = "ReviveApp/1.0 (1stachuradominic@gmail.com)"
         private const val RESULTS_PER_SEARCH = "20"
     }
 

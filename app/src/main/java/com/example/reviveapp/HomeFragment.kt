@@ -245,6 +245,7 @@ class HomeFragment : Fragment() {
             val foodListView = dialogView.findViewById<ListView>(R.id.foodListView)
             val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
             val titleText = dialogView.findViewById<TextView>(R.id.dialogTitle)
+            val apiStatusText = dialogView.findViewById<TextView>(R.id.apiStatusText)
 
             titleText.text = "Select Food or Meal"
 
@@ -359,6 +360,56 @@ class HomeFragment : Fragment() {
                 filteredItems.addAll(newItems)
                 adapter.notifyDataSetChanged()
             }
+            // Declared up front and assigned at the bottom of this block.
+            // showError needs to call the search again on retry; the search
+            // needs to call showError on failure — genuinely circular. A var
+            // holding the function, filled in once everything it depends on
+            // already exists, is how you break that cycle for local functions
+            // (which — unlike member functions — can't forward-reference
+            // each other).
+            lateinit var runApiSearch: (String) -> Unit
+
+            fun isCurrentQuery(query: String): Boolean =
+                dialog.isShowing && searchView.query.toString() == query
+
+            fun hideStatus() {
+                apiStatusText.visibility = View.GONE
+                apiStatusText.setOnClickListener(null)
+            }
+
+            fun showLoading() {
+                apiStatusText.visibility = View.VISIBLE
+                apiStatusText.setOnClickListener(null)
+                apiStatusText.text = "Searching Open Food Facts…"
+            }
+
+            fun showEmpty(query: String) {
+                apiStatusText.visibility = View.VISIBLE
+                apiStatusText.setOnClickListener(null)
+                apiStatusText.text = "No online matches for \"$query\""
+            }
+
+            fun showError(query: String) {
+                apiStatusText.visibility = View.VISIBLE
+                apiStatusText.text = "Couldn't reach Open Food Facts — tap to retry"
+                apiStatusText.setOnClickListener { runApiSearch(query) }
+            }
+
+            runApiSearch = { query ->
+                showLoading()
+                offApi.search(
+                    query = query,
+                    onResult = { foods ->
+                        if (isCurrentQuery(query)) {
+                            if (foods.isEmpty()) showEmpty(query) else hideStatus()
+                        }
+                        applyApiResults(query, foods)
+                    },
+                    onError = {
+                        if (isCurrentQuery(query)) showError(query)
+                    }
+                )
+            }
 
             // Setup search functionality
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -375,24 +426,15 @@ class HomeFragment : Fragment() {
                     filteredItems.addAll(localMatches(query))
                     adapter.notifyDataSetChanged()
 
-                    // A keystroke cancels whatever search was still waiting
-                    // to fire for the previous, now-outdated, text.
+                    // A keystroke cancels whatever search was still waiting to
+                    // fire for the previous, now-outdated text, and clears any
+                    // loading/error/empty message left over from it.
                     pendingSearch?.let { searchDebounceHandler.removeCallbacks(it) }
+                    hideStatus()
 
-                    // Open Food Facts rate-limits to 10 searches/minute/IP and
-                    // explicitly asks apps not to search on every keystroke.
-                    // Waiting for a pause in typing, and requiring a few
-                    // characters first, keeps us well under that even if
-                    // someone types quickly.
                     if (query.trim().length < 3) return true
 
-                    val searchRunnable = Runnable {
-                        offApi.search(
-                            query = query,
-                            onResult = { foods -> applyApiResults(query, foods) },
-                            onError = { /* left quiet for now — proper handling is step 8 */ }
-                        )
-                    }
+                    val searchRunnable = Runnable { runApiSearch(query) }
                     pendingSearch = searchRunnable
                     searchDebounceHandler.postDelayed(searchRunnable, 600)
 

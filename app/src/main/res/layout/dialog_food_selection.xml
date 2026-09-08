@@ -28,6 +28,16 @@
         app:closeIcon="@drawable/baseline_clear_green"
         app:searchIcon="@drawable/baseline_search_24"/>
 
+    <TextView
+        android:id="@+id/apiStatusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:textColor="@color/darkGreen"
+        android:textSize="13sp"
+        android:visibility="gone"/>
+
     <ListView
         android:id="@+id/foodListView"
         android:layout_width="match_parent"

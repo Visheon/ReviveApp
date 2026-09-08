@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.math.BigDecimal
 import java.math.RoundingMode
+import android.os.Handler
+import android.os.Looper
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -243,6 +245,7 @@ class HomeFragment : Fragment() {
             val foodListView = dialogView.findViewById<ListView>(R.id.foodListView)
             val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
             val titleText = dialogView.findViewById<TextView>(R.id.dialogTitle)
+            val apiStatusText = dialogView.findViewById<TextView>(R.id.apiStatusText)
 
             titleText.text = "Select Food or Meal"
 
@@ -271,6 +274,10 @@ class HomeFragment : Fragment() {
                         }
                         is SelectionItem.MealItem -> {
                             detailsTextView.text = "${item.meal.totalCalories.roundToDecimal(1)} kcal"
+                        }
+                        is SelectionItem.ApiFoodItem -> {
+                            val rounded = item.food.calories.roundToDecimal(1)
+                            detailsTextView.text = "$rounded kcal/100g · Search"
                         }
                     }
 
@@ -319,26 +326,118 @@ class HomeFragment : Fragment() {
 
             foodListView.adapter = adapter
 
+            val offApi = OpenFoodFactsApi()
+            val searchDebounceHandler = Handler(Looper.getMainLooper())
+            var pendingSearch: Runnable? = null
+
+            // Applies only the local (Firebase) match for a query — synchronous,
+            // no network involved, so this stays instant on every keystroke
+            // the way it already did before this feature existed.
+            fun localMatches(query: String): List<SelectionItem> {
+                return if (query.isBlank()) {
+                    allItems.toList()
+                } else {
+                    val q = query.lowercase()
+                    allItems.filter { it.name.lowercase().contains(q) }
+                }
+            }
+
+            // Merges Open Food Facts results into whatever's currently
+            // displayed, once a debounced search actually completes.
+            fun applyApiResults(forQuery: String, results: List<FoodItem>) {
+                // The user may have kept typing, or closed the dialog, since
+                // this search was fired off — a network response can always
+                // arrive after the thing that triggered it is no longer
+                // relevant. Check both before touching the UI with it.
+                if (!dialog.isShowing) return
+                if (searchView.query.toString() != forQuery) return
+
+                val alreadyShown = filteredItems.map { it.name.lowercase() }.toSet()
+                val newItems = results
+                    .filter { it.name.lowercase() !in alreadyShown } // skip anything you already have saved under this name
+                    .map { SelectionItem.ApiFoodItem(it) }
+
+                filteredItems.addAll(newItems)
+                adapter.notifyDataSetChanged()
+            }
+            // Declared up front and assigned at the bottom of this block.
+            // showError needs to call the search again on retry; the search
+            // needs to call showError on failure — genuinely circular. A var
+            // holding the function, filled in once everything it depends on
+            // already exists, is how you break that cycle for local functions
+            // (which — unlike member functions — can't forward-reference
+            // each other).
+            lateinit var runApiSearch: (String) -> Unit
+
+            fun isCurrentQuery(query: String): Boolean =
+                dialog.isShowing && searchView.query.toString() == query
+
+            fun hideStatus() {
+                apiStatusText.visibility = View.GONE
+                apiStatusText.setOnClickListener(null)
+            }
+
+            fun showLoading() {
+                apiStatusText.visibility = View.VISIBLE
+                apiStatusText.setOnClickListener(null)
+                apiStatusText.text = "Searching Open Food Facts…"
+            }
+
+            fun showEmpty(query: String) {
+                apiStatusText.visibility = View.VISIBLE
+                apiStatusText.setOnClickListener(null)
+                apiStatusText.text = "No online matches for \"$query\""
+            }
+
+            fun showError(query: String) {
+                apiStatusText.visibility = View.VISIBLE
+                apiStatusText.text = "Couldn't reach Open Food Facts — tap to retry"
+                apiStatusText.setOnClickListener { runApiSearch(query) }
+            }
+
+            runApiSearch = { query ->
+                showLoading()
+                offApi.search(
+                    query = query,
+                    onResult = { foods ->
+                        if (isCurrentQuery(query)) {
+                            if (foods.isEmpty()) showEmpty(query) else hideStatus()
+                        }
+                        applyApiResults(query, foods)
+                    },
+                    onError = {
+                        if (isCurrentQuery(query)) showError(query)
+                    }
+                )
+            }
+
             // Setup search functionality
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean = false
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    val query = newText ?: ""
+
+                    // Local results update immediately, same as before this
+                    // feature existed — no reason to make the user's own
+                    // foods feel slower just because a network call is also
+                    // happening now.
                     filteredItems.clear()
-                    if (newText.isNullOrEmpty()) {
-                        filteredItems.addAll(allItems)
-                    } else {
-                        val searchText = newText.toLowerCase()
-                        filteredItems.addAll(allItems.filter { item ->
-                            when (item) {
-                                is SelectionItem.FoodItem ->
-                                    item.food.name.toLowerCase().contains(searchText)
-                                is SelectionItem.MealItem ->
-                                    item.meal.name.toLowerCase().contains(searchText)
-                            }
-                        })
-                    }
+                    filteredItems.addAll(localMatches(query))
                     adapter.notifyDataSetChanged()
+
+                    // A keystroke cancels whatever search was still waiting to
+                    // fire for the previous, now-outdated text, and clears any
+                    // loading/error/empty message left over from it.
+                    pendingSearch?.let { searchDebounceHandler.removeCallbacks(it) }
+                    hideStatus()
+
+                    if (query.trim().length < 3) return true
+
+                    val searchRunnable = Runnable { runApiSearch(query) }
+                    pendingSearch = searchRunnable
+                    searchDebounceHandler.postDelayed(searchRunnable, 600)
+
                     return true
                 }
             })
@@ -355,12 +454,30 @@ class HomeFragment : Fragment() {
                     is SelectionItem.MealItem -> {
                         addMealToMeal(selectedItem.meal, mealType)
                     }
+                    is SelectionItem.ApiFoodItem -> {
+                        // Identical handling to the FoodItem case above, on
+                        // purpose: showFoodQuantityDialog → addFoodToMeal only
+                        // ever writes into DailyMeals, never into "Food items"
+                        // in Firebase, no matter which case put it there. That's
+                        // what keeps an Open Food Facts result from ever being
+                        // saved as if you'd created it yourself.
+                        val selectedFood = selectedItem.food.copy()
+                        selectedFood.convertto1gram()
+                        showFoodQuantityDialog(selectedFood, mealType)
+                    }
                 }
                 dialog.dismiss()
             }
 
             cancelButton.setOnClickListener {
                 dialog.dismiss()
+            }
+
+            dialog.setOnDismissListener {
+                // Whichever way the dialog closed — selection or cancel —
+                // don't let a search that's still waiting in the debounce
+                // queue fire afterward and update a UI nobody's looking at.
+                pendingSearch?.let { searchDebounceHandler.removeCallbacks(it) }
             }
 
             if (dialog.window != null) {
@@ -382,6 +499,12 @@ class HomeFragment : Fragment() {
 
         data class MealItem(val meal: Meal) : SelectionItem() {
             override val name: String get() = meal.name
+        }
+
+        // Same underlying FoodItem as the case above — the difference is only
+        // where it came from, which the adapter uses to label it in the list.
+        data class ApiFoodItem(val food: com.example.reviveapp.FoodItem) : SelectionItem() {
+            override val name: String get() = food.name
         }
     }
 

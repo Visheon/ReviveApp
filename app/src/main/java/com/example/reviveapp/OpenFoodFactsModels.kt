@@ -58,3 +58,32 @@ private fun JSONObject.optDoubleOrNull(key: String): Double? {
     val value = optDouble(key)
     return if (value.isNaN()) null else value
 }
+
+// Turns a possibly-incomplete Open Food Facts result into a full FoodItem,
+// or null if it's missing a name or any of the four macros. FoodItem's
+// fields are non-nullable, so this is the one place that enforces
+// "no half-known foods make it into the app" — everything downstream of
+// this function can assume a FoodItem is complete, the same guarantee
+// you already get from foods entered by hand in ItemFragment.
+fun OffProduct.toFoodItemOrNull(): FoodItem? {
+    if (name.isBlank()) return null
+    val calories = caloriesPer100g ?: return null
+    val proteins = proteinsPer100g ?: return null
+    val fats = fatsPer100g ?: return null
+    val carbs = carbsPer100g ?: return null
+
+    // These are still per-100g values here — the same representation your
+    // Firebase-sourced FoodItems are in right after convertto100gram() is
+    // called for display (see HomeFragment's showFoodSelectionDialog).
+    // Converting down to per-1g only happens at selection time, in step 6,
+    // exactly the way the existing Firebase food flow already does it via
+    // selectedFood.convertto1gram(). Same shape in, same conversion point —
+    // that's what lets us reuse the rest of the pipeline unmodified.
+    return FoodItem(
+        name = name,
+        calories = calories,
+        proteins = proteins,
+        fats = fats,
+        carbs = carbs
+    )
+}

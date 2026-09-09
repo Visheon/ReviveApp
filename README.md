@@ -28,14 +28,14 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 
 ## Features
 
-### 🔐 Authentication & Onboarding
+### Authentication & Onboarding
 - Email/password sign up and login via Firebase Auth
 - "Forgot password" flow that verifies the email exists before sending a Firebase reset email
 - Returning users are routed straight to the app; new users are routed to a **Personal Details** form (name, age, height, weight, sex, activity level) which calculates their starting calorie and macro targets
 
 ![Login / Onboarding](screenshots/Login.png)
 
-### 🏠 Home Dashboard
+### Home Dashboard
 - Circular/linear progress toward the daily calorie goal, plus progress bars for protein, fat, and carbs
 - Three meal sections — **Breakfast**, **Snacks**, **Dinner** — each with its own running calorie total and item list
 - "Add food" opens a searchable dialog listing both individual food items and saved meals
@@ -44,42 +44,47 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 
 ![Home Dashboard](screenshots/Home_Screen.png)
 
-### 🍎 Food Library
+### **Search Open Food Facts** 
+- Look up nutrition info for virtually any packaged food and log it straight to your daily totals, no manual entry required
+
+![Database Search](screenshots/Database-Search.png)
+
+### Food Library
 - Add custom food items with calories, protein, fat, and carbs (entered per 100 g, stored normalized per gram internally)
 - Live search/filter by name
 - Tap an item to view full details; long-press for quick edit/delete options
 
 ![Food Library](screenshots/Food_Items.png)
 
-### 🍽️ Meals
+### Meals
 - Combine multiple food items (each with its own quantity) into a reusable custom meal
 - Search saved meals, view a full nutritional breakdown, or edit/delete an existing meal
 - Meals can be added to the daily log in one tap from the Home screen
 
 ![Meals](screenshots/Meal-Items.png)
 
-### 🎯 Daily Goals
+### Daily Goals
 - View current calorie and macro targets at a glance
 - Manually edit the daily calorie goal — macro gram targets automatically recalculate from the saved percentage split
 - Adjust the protein/fat/carb split with sliders that snap to 5% increments and must total 100%
 
 ![Daily Goals](screenshots/Goals.png)
 
-### 👤 Personal Info & Profile
+### Personal Info & Profile
 - View and edit individual profile fields (age, height, weight, sex, activity level) one at a time via a shared dialog
 - "Recalculate calories" re-runs the formula with current stats and flags whether the target has actually changed
 - Profile tab shows name and email, with a logout action
 
 ![Personal Info](screenshots/Personal_Info.png)
 
-### 🔔 Meal Reminder Notifications
+### Meal Reminder Notifications
 - Create named reminders with a specific time using hour/minute pickers
 - Toggle individual reminders on/off
 - Reminders repeat daily via **WorkManager**, and the app requests the `POST_NOTIFICATIONS` runtime permission on Android 13+
 
 ![Notifications](screenshots/Notifications.png)
 
-### 🧮 Standalone Calorie Calculator
+### Standalone Calorie Calculator
 - A quick, profile-independent calculator: enter age, height, weight, and gender to estimate calorie needs across six activity levels (using the Harris-Benedict formula)
 
 ![Calorie Calculator](screenshots/Calorie_Calculator.png)

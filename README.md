@@ -104,9 +104,9 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 | UI | Android Fragments, ViewBinding, Material Components, RecyclerView |
 | Auth | Firebase Authentication (email/password) |
 | Database | Firebase Realtime Database |
+| Food Database | **Networking**: OkHttp + manual JSON parsing (`org.json`) for calling the Open Food Facts REST API |
 | Background work | WorkManager (periodic notification scheduling) |
 | Navigation | Bottom Navigation View + Navigation Drawer inside a single host `Activity` |
-| Food Database | **Networking**: OkHttp + manual JSON parsing (`org.json`) for calling the Open Food Facts REST API |
 
 ---
 

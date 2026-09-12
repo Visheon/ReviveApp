@@ -72,11 +72,13 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 ![Daily Goals](revive-screenshots/Goals.png)
 
 ### Personal Info & Profile
-- View and edit individual profile fields (age, height, weight, sex, activity level) one at a time via a shared dialog
+- Upon first login you enter personal information details about age, height, weight, sex and activity levels.
+- View and edit individual profile fields one at a time via a shared dialog
 - "Recalculate calories" re-runs the formula with current stats and flags whether the target has actually changed
 - Profile tab shows name and email, with a logout action
 
-![Personal Info](revive-screenshots/Personal-Info.png)
+![Personal Info Start Screen](revive-screenshots/Personal-Info.png)
+![Profile](revive-screenshots/Profile.png)
 
 ### Meal Reminder Notifications
 - Create named reminders with a specific time using hour/minute pickers

@@ -60,9 +60,10 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 - Combine multiple food items (each with its own quantity) into a reusable custom meal
 - Search saved meals, view a full nutritional breakdown, or edit/delete an existing meal
 - Meals can be added to the daily log in one tap from the Home screen
-- 
+  
 ![Meal Creation](revive-screenshots/Meal-Creation.png)
-![Meals](revive-screenshots/Meal.png)
+
+![Meals](revive-screenshots/Meals.png)
 
 ### Daily Goals
 - View current calorie and macro targets at a glance
@@ -78,6 +79,7 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 - Profile tab shows name and email, with a logout action
 
 ![Personal Info Start Screen](revive-screenshots/Personal-Info.png)
+
 ![Profile](revive-screenshots/Profile.png)
 
 ### Meal Reminder Notifications

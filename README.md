@@ -1,6 +1,6 @@
 # Revive – Calorie & Nutrition Tracker
 
-Revive is a native Android app for tracking daily calorie intake and macronutrients. It calculates a personalized calorie and macro target based on the user's stats and activity level, then lets them log food throughout the day against that target — with a food library, reusable custom meals, adjustable goals, and meal-reminder notifications. Data is synced per-user via Firebase.
+Revive is a native Android app for tracking daily calorie intake and macronutrients. It calculates a personalized calorie and macro target based on the user's stats and activity level, then lets them log food throughout the day against that target, with a food library, reusable custom meals, adjustable goals, and meal-reminder notifications. Data is synced per-user via Firebase.
 
 ---
 
@@ -37,7 +37,7 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 
 ### Home Dashboard
 - Circular/linear progress toward the daily calorie goal, plus progress bars for protein, fat, and carbs
-- Three meal sections — **Breakfast**, **Snacks**, **Dinner** — each with its own running calorie total and item list
+- Three meal sections: **Breakfast**, **Snacks**, **Dinner** each with its own running calorie total and item list
 - "Add food" opens a searchable dialog listing both individual food items and saved meals
 - Tapping a logged item lets you edit its quantity or remove it
 - Automatically detects a new day and resets the log, while keeping each day's history stored in Firebase
@@ -67,7 +67,7 @@ Revive is a native Android app for tracking daily calorie intake and macronutrie
 
 ### Daily Goals
 - View current calorie and macro targets at a glance
-- Manually edit the daily calorie goal — macro gram targets automatically recalculate from the saved percentage split
+- Manually edit the daily calorie goal. Macro gram targets automatically recalculate from the saved percentage split
 - Adjust the protein/fat/carb split with sliders that snap to 5% increments and must total 100%
 
 ![Daily Goals](revive-screenshots/Goals.png)
